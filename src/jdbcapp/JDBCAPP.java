@@ -6,11 +6,15 @@
 package jdbcapp;
 
 
+import emergo.dao.ActorDao;
+import emergo.entity.Actor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,39 +23,20 @@ import java.sql.Statement;
 public class JDBCAPP {
     //crud operations (Insert ,select ,Update,Delete)
         
-    private static String url="jdbc:mysql://localhost:3306/sakila";
-    private static String user="root";
-    private static String password="panakos12";
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        // TODO code application logic here
+      
         // 1 import Driver jar.
-        // 2 DriverManager will give us the connection object.
-        // 3 connection(url,port,username,password,schema/database)
+      ActorDao actorDao= new ActorDao();
+      List<Actor> actors=actorDao.findAll();
+      for(Actor actor :actors){
+          System.out.println(actor);
+      }
         
-        Connection connection=DriverManager.getConnection(url,user,password);
-       Statement statement= connection.createStatement();
-       String query ="SELECT * FROM actor";
-       ResultSet resultSet=statement.executeQuery(query);
-       resultSet.next();
-       int actorId=resultSet.getInt(1);
-       String fname=resultSet.getString(2);
-       String lname=resultSet.getString(3);
-       
-        System.out.println("actorId=" +actorId+","
-                + "fname="+fname+",lname"+lname);
-        resultSet.next();
-        actorId=resultSet.getInt(1);
-        fname=resultSet.getString(3);
-        lname=resultSet.getString(3);
-       
-        System.out.println("actorId=" +actorId+","
-                + "fname="+fname+",lname"+lname);
-        resultSet.close();
-        statement.close();
-        connection.close();
+      
     }
     
 }
